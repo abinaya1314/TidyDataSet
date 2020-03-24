@@ -24,10 +24,10 @@ flabels<-features_labels$V2
 names(test)<-flabels
 names(train)<-flabels
 
-subject<-c(test_subject,train_subject)
+subject<-c(test_subject$V1,train_subject$V1)
 
-activity_test<-label_code_test$V1
-activity_train<-label_code_train$V1
+## activity_test<-label_code_test$V1
+## activity_train<-label_code_train$V1
 
 ## to link the activity names to all the rows in the test and training datasets,
 ## convert the codes in 'label_code_test' and 'label_code_train' to their respective
@@ -56,8 +56,8 @@ apply_activity<-function(ac)
   invisible(ac)
 }
 
-activity_test<-apply_activity(activity_test)
-activity_train<-apply_activity(activity_train)
+activity_test<-apply_activity(label_code_test$V1)
+activity_train<-apply_activity(label_code_train$V1)
 activity<-c(activity_test,activity_train)
 
 
@@ -77,23 +77,23 @@ MeanAndStd<-cbind(mean_measures,std_measures)
 
 ## 5. Average is calculated for each variable in the dataset 
 
-MeansOfAllColumns<-colMeans(binded)
+MeansOfAllColumns<-colMeans(MeanAndStd)
 
 
 ## 4. The data set is appropriately labelled with descriptive variable names.
 
-binded<-cbind(activity,subject,binded)
+MeanAndStd<-cbind(activity,subject,MeanAndStd)
 
 ## 5. Average is calculated for each subject in the dataset 
 
-sub_splited<-split(binded,binded$subject)
+sub_splited<-split(MeanAndStd,MeanAndStd$subject)
 mean_subjectwise<-sapply(sub_splited,function(x){ y=data.matrix(x);colMeans(y) })
 SubjectAverage<-mean_subjectwise[3:nrow(mean_subjectwise),]
 
 
 ## 5. Average is calculated for each activity
 
-activity_split<-split(binded,binded$activity)
+activity_split<-split(MeanAndStd,MeanAndStd$activity)
 mean_activity<-sapply(activity_split,function(x){ y=data.matrix(x); colMeans(y)})
 ActivityAverage<-mean_activity[3:nrow(mean_activity),]
 
@@ -101,7 +101,7 @@ ActivityAverage<-mean_activity[3:nrow(mean_activity),]
 ## Remove the symbol '##' infront of the object names to view that particular data
 
 ## The newly created tidy dataset is stored in object,
-## binded
+## MeanAndStd
 
 ## Only the measurements on the mean and standard deviation 
 ## for each measurement is stored in object,
