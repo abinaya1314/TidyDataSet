@@ -25,4 +25,4 @@ The binded data set in splited based on the activity name and mean is calculated
 
 The binded data set in splited based on the subject name and mean is calculated for each subject. It is stored in 'SubjectAverage'.
 
-The tidy data set is stored in the object 'binded'
+The tidy data set is stored in the object 'MeanAndStd'
